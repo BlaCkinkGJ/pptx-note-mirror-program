@@ -1,0 +1,6 @@
+.vscode/
+build/
+dist/
+pptx_controller.egg-info/
+src/__pycache/
+*.pyc

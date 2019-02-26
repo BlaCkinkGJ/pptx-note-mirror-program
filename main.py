@@ -9,8 +9,8 @@ def argv_error(usage):
 
 if __name__=='__main__':
     usage = """usage: %prog [options]
-    ex1) %prog --client -i 192.168.0.1 -p 5000
-    ex2) %prog --server -i 127.0.0.1 -p 5000 --disable-show
+    ex1) %prog --client -i 192.168.0.1 -p 65500
+    ex2) %prog --server -i 127.0.0.1 -p 65500 --disable-show
     """
 
     if len(sys.argv) <= 1:
@@ -27,7 +27,7 @@ if __name__=='__main__':
                       help="set IPv4 number(not support the IPv6)",
                       default=str(socket.gethostbyname(socket.gethostname())))
     parser.add_option("-p","--port", dest="port", action="store", type="int",
-                      help="set the port number", default=5000)
+                      help="set the port number(default:65500)", default=65500)
 
     options, args = parser.parse_args()
 
