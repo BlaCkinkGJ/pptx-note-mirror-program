@@ -1,0 +1,20 @@
+Metadata-Version: 1.2
+Name: pptx-controller
+Version: 0.1
+Summary: Programs that can control PowerPoint over the network and mirror to client the presentation note.
+Home-page: https://github.com/blackinkgj/pptx-note-mirror-program
+Author: BlaCkinkGJ
+Author-email: ss5kijun@gmail.com
+License: MIT
+Description: UNKNOWN
+Keywords: pptx,win32com,remote
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.2
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Requires-Python: >=3

@@ -1,0 +1,14 @@
+README.md
+setup.cfg
+setup.py
+pptx_controller.egg-info/PKG-INFO
+pptx_controller.egg-info/SOURCES.txt
+pptx_controller.egg-info/dependency_links.txt
+pptx_controller.egg-info/not-zip-safe
+pptx_controller.egg-info/top_level.txt
+src/__init__.py
+src/client.py
+src/server.py
+src/slide.py
+src/util/__init__.py
+src/util/connection.py
