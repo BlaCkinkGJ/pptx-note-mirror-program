@@ -1,4 +1,3 @@
-from src import server, client
 import sys, os, socket
 from optparse import OptionParser
 import logging
@@ -34,8 +33,10 @@ if __name__=='__main__':
     if options.is_client and options.is_server:
         argv_error(usage)
     elif options.is_client:
+        from src import client 
         client.run(options.ip, options.port)
     elif options.is_server:
+        from src import server
         server.run(options.ip, options.port, options.is_enable_show)
     else:
         argv_error(usage)

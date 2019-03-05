@@ -44,13 +44,13 @@ class Server:
         logging.info('connected in ==> {}'.format(self.__addr))
 
     def receive(self, recv_size):
-        recv_data = (self.__client_sock.recv(recv_size)).decode('utf-8')
+        recv_data = self.__client_sock.recv(recv_size)
         logging.info('receive data ==> {}'.format(recv_data))
         return recv_data
 
     def send(self, data):
         if type(data) == str:
-            self.__client_sock.send(data.encode('utf-8'))
+            self.__client_sock.sendall(data.encode())
 
     def __del__(self):
         if self.__server_sock is not None:
@@ -92,13 +92,13 @@ class Client:
         self.__init()
 
     def receive(self, recv_size):
-        recv_data = self.__client_sock.recv(recv_size).decode('utf-8')
+        recv_data = self.__client_sock.recv(recv_size) 
         logging.info('receive data ==> {}'.format(recv_data))
         return recv_data
 
     def send(self, data):
         if type(data) == str:
-            self.__client_sock.send(data.encode('utf-8'))
+            self.__client_sock.sendall(data.encode())
 
     def __del__(self):
         if self.__client_sock is not None:
@@ -107,18 +107,15 @@ class Client:
 class Communication:
     @staticmethod
     def receive_data(_sock):
-        length = _sock.receive(256)
-        if length.isdecimal():
-            length = int(length)
-        else:
-            raise ConnectionError
-        _sock.send("OK")
-        recv_data = json.loads(_sock.receive(length))
+        temp = []
+        while True:
+            temp += list(_sock.receive(1024))
+            if len(temp) > 0 and chr(temp[-1]) == '}':
+                break
+        recv_data = json.loads(bytes(temp).decode())
         return recv_data
 
     @staticmethod
     def send_data(_sock, _buffer):
-        data = json.dumps(_buffer)
-        _sock.send(str(len(data.encode())))
-        if _sock.receive(256) == 'OK':
-            _sock.send(data)
+        data = json.dumps(_buffer, ensure_ascii=False)
+        _sock.send(data)
