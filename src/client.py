@@ -68,23 +68,24 @@ def __my_window():
     window = tkinter.Tk()
     window.protocol("WM_DELETE_WINDOW", __window_destroy)
     window.title("pptx-client.py")
-    window.geometry("800x600")
+    window.geometry("1600x900")
     scroll = tkinter.Scrollbar(window)
     # if you want to change the font family then change the font family value
-    font = tkinter.font.Font(family="맑은 고딕", size=14)
-    text = tkinter.Text(window, height=50, width=75, font=font)
+    font = tkinter.font.Font(family="맑은 고딕", size=12)
+    text = tkinter.Text(window, font=font)
     scroll.pack(side=tkinter.RIGHT, fill=tkinter.Y)
-    text.pack(side=tkinter.LEFT, fill=tkinter.Y)
+    text.pack(side=tkinter.LEFT, fill=tkinter.BOTH, expand=True)
     scroll.config(command=text.yview)
     text.config(yscrollcommand=scroll.set)
     window.update()
     while True:
         sleep(1/60)
-        if __buffer['note'] == "None":
-            continue
-        data = "[[ script ]] \n\n"+__buffer['note']
-        text.delete('1.0', tkinter.END)
-        text.insert(tkinter.END, data)
+        if __buffer['clicked']:
+            if __buffer['note'] == "None":
+                continue
+            data = "[[ script ]] \n\n"+__buffer['note']
+            text.delete('1.0', tkinter.END)
+            text.insert(tkinter.END, data)
         window.update()
 
 def run(ip, port):
