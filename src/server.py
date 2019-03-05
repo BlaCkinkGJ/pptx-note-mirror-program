@@ -1,8 +1,9 @@
 import logging
 import sys
+import socket
 
 from src.util.connection import Server, Communication
-from src.slide import Slide
+from src.util.slide import Slide
 
 buffer = {
     "move": "None",
@@ -28,17 +29,18 @@ def __slide_control(_slide):
 
 def __run(_slide, _serv):
     global buffer
-    _serv.accept()
-    while True:
-        try:
-            recv_data = Communication.receive_data(_serv)
-            buffer['move'] = recv_data['move']
-            if __slide_control(_slide) == -1:
-                return -1
-            Communication.send_data(_serv, buffer)
-        except ConnectionError:
-            logging.warning('client connection closed')
-            return 0
+    try:
+        _serv.accept()
+        _serv.set_time_out(5.0)
+        while True:
+                recv_data = Communication.receive_data(_serv)
+                buffer['move'] = recv_data['move']
+                if __slide_control(_slide) == -1:
+                    return -1
+                Communication.send_data(_serv, buffer)
+    except (socket.timeout, ConnectionError):
+        logging.warning('client connection closed')
+        return 0
 
 def run(ip, port, is_enable_show):
     serv = Server()

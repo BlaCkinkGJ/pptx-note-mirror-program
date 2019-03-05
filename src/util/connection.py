@@ -18,6 +18,9 @@ class Server:
         server_addr = (self.__ip, self.__port)
         self.__server_sock.bind(server_addr)
         self.__server_sock.listen(backlog)
+    
+    def set_time_out(self, rx_timeout):
+        self.__server_sock.settimeout(rx_timeout)
 
     def init(self, ip, port):
         # IPv6 system doesn't support
@@ -69,6 +72,9 @@ class Client:
         except ConnectionError:
             logging.error("cannot connect ==> {}".format(con_addr))
             sys.exit()
+
+    def set_time_out(self, rx_timeout):
+        self.__client_sock.settimeout(rx_timeout)
 
     def init(self, ip, port):
         # IPv6 system doesn't support
