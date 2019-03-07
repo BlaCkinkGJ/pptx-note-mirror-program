@@ -33,7 +33,7 @@ if __name__=='__main__':
     if options.is_client and options.is_server:
         argv_error(usage)
     elif options.is_client:
-        from src import client 
+        from src import client
         client.run(options.ip, options.port)
     elif options.is_server:
         from src import server

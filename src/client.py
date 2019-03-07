@@ -63,30 +63,33 @@ def __window_destroy():
     logging.info("destroy windows")
     os._exit(0)
 
-def __my_window():
+def __window_update(_window, _text):
     global __buffer
+    if __buffer['note'] == "None":
+        return -1
+    data = "[[ script ]] \n\n"+__buffer['note']
+    _text.delete('1.0', tkinter.END)
+    _text.insert(tkinter.END, data)
+    _window.update()
+    return 0
+
+def __my_window():
     window = tkinter.Tk()
     window.protocol("WM_DELETE_WINDOW", __window_destroy)
     window.title("pptx-client.py")
-    window.geometry("1600x900")
+    window.geometry("800x600")
     scroll = tkinter.Scrollbar(window)
     # if you want to change the font family then change the font family value
-    font = tkinter.font.Font(family="맑은 고딕", size=12)
-    text = tkinter.Text(window, font=font)
+    font = tkinter.font.Font(family="맑은 고딕", size=14)
+    text = tkinter.Text(window, height=50, width=75, font=font)
     scroll.pack(side=tkinter.RIGHT, fill=tkinter.Y)
-    text.pack(side=tkinter.LEFT, fill=tkinter.BOTH, expand=True)
+    text.pack(side=tkinter.LEFT, fill=tkinter.Y)
     scroll.config(command=text.yview)
     text.config(yscrollcommand=scroll.set)
-    window.update()
+    __window_update(window, text)
     while True:
-        sleep(1/60)
-        if __buffer['clicked']:
-            if __buffer['note'] == "None":
-                continue
-            data = "[[ script ]] \n\n"+__buffer['note']
-            text.delete('1.0', tkinter.END)
-            text.insert(tkinter.END, data)
-        window.update()
+        sleep(1/24)
+        __window_update(window, text)
 
 def run(ip, port):
     try:
