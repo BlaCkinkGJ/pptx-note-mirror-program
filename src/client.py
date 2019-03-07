@@ -1,5 +1,5 @@
 import logging
-import sys, os
+import sys, os, copy
 import threading
 import tkinter, tkinter.font
 
@@ -15,6 +15,7 @@ __buffer = {
     'page': '',
 }
 ___client = Client()
+__prev = {}
 
 
 def __on_press(key):
@@ -63,33 +64,36 @@ def __window_destroy():
     logging.info("destroy windows")
     os._exit(0)
 
-def __window_update(_window, _text):
-    global __buffer
-    if __buffer['note'] == "None":
+def __data_update(_window, _text):
+    global __buffer, __prev
+    hasNote = __buffer['note'] == "None"
+    isChange = __buffer != __prev
+    if hasNote or not isChange:
         return -1
     data = "[[ script ]] \n\n"+__buffer['note']
     _text.delete('1.0', tkinter.END)
     _text.insert(tkinter.END, data)
-    _window.update()
+    __prev = copy.deepcopy(__buffer)
     return 0
 
 def __my_window():
     window = tkinter.Tk()
     window.protocol("WM_DELETE_WINDOW", __window_destroy)
     window.title("pptx-client.py")
-    window.geometry("800x600")
+    window.geometry("1600x900")
     scroll = tkinter.Scrollbar(window)
     # if you want to change the font family then change the font family value
-    font = tkinter.font.Font(family="맑은 고딕", size=14)
+    font = tkinter.font.Font(family="맑은 고딕", size=12)
     text = tkinter.Text(window, height=50, width=75, font=font)
     scroll.pack(side=tkinter.RIGHT, fill=tkinter.Y)
-    text.pack(side=tkinter.LEFT, fill=tkinter.Y)
+    text.pack(side=tkinter.LEFT, fill=tkinter.BOTH, expand=True)
     scroll.config(command=text.yview)
     text.config(yscrollcommand=scroll.set)
-    __window_update(window, text)
+    __data_update(window, text)
     while True:
         sleep(1/24)
-        __window_update(window, text)
+        __data_update(window, text)
+        window.update()
 
 def run(ip, port):
     try:
