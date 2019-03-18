@@ -1,1 +1,1 @@
-__all__ = ['connection']
+__all__ = ['connection', 'slide']

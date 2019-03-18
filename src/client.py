@@ -1,5 +1,5 @@
 import logging
-import sys, os, copy
+import os, copy
 import threading
 import tkinter, tkinter.font
 
@@ -106,5 +106,4 @@ def run(ip, port):
             listener.join()
     except Exception:
         logging.error("Unexpected ended occur")
-        ___client.__del__()
         os._exit(-1)

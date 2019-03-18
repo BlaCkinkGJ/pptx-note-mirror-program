@@ -1,5 +1,4 @@
 from win32com.client import Dispatch
-import logging
 
 
 class Slide:
